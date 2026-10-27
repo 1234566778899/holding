@@ -27,10 +27,14 @@ export async function generateMetadata({ params }: PageProps<'/[lang]/negocios/[
   const { lang, slug } = await params
   const d = load(lang, slug)
   if (!d) return {}
+  const title = `${d.line.tag} · HEN Holding Corp`
+  const url = `/${lang}/negocios/${slug}`
   return {
-    title: `${d.line.tag} · HEN Holding Corp`,
+    title,
     description: d.line.description,
-    alternates: { languages: { es: `/es/negocios/${slug}`, en: `/en/negocios/${slug}` } },
+    alternates: { canonical: url, languages: { es: `/es/negocios/${slug}`, en: `/en/negocios/${slug}`, 'x-default': `/es/negocios/${slug}` } },
+    openGraph: { title, description: d.line.description, url, images: [{ url: d.line.image, alt: d.line.title }] },
+    twitter: { card: 'summary_large_image', title, description: d.line.description, images: [d.line.image] },
   }
 }
 

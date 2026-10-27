@@ -8,7 +8,10 @@ export function ContactForm({ t }: { t: Content['contact']['form'] }) {
   const [sent, setSent] = useState(false)
   const submit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    if (e.currentTarget.reportValidity()) setSent(true)
+    if (!e.currentTarget.reportValidity()) return
+    // Google Analytics: cuenta el envío como oportunidad de venta (sin datos personales)
+    ;(window as { gtag?: (...args: unknown[]) => void }).gtag?.('event', 'generate_lead', { form: 'contacto' })
+    setSent(true)
   }
   const field = 'w-full border border-line bg-white px-4 py-3 text-navy outline-none transition focus:border-navy'
   const label = 'grid gap-2 text-[15px] font-bold text-navy'

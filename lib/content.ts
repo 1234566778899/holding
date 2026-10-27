@@ -12,6 +12,7 @@ export type Text = string | Pending
 
 /** Datos que no cambian con el idioma */
 export const brand = { name: 'HEN Holding Corp', fullName: 'Hub Earth Nexus', domain: 'grupohen.com' }
+export const siteUrl = `https://${brand.domain}`
 
 const images = {
   investments: '/img/inmobiliaria.jpg', trade: '/img/comercio.jpg', technology: '/img/tecnologia.jpg', services: '/img/servicios.jpg',

@@ -6,7 +6,7 @@ import { Header } from '@/components/Header'
 import { Footer } from '@/components/Footer'
 import { ContactForm } from '@/components/ContactForm'
 import { T } from '@/components/T'
-import { brand, getContent, hasLocale } from '@/lib/content'
+import { brand, getContent, hasLocale, siteUrl } from '@/lib/content'
 
 // Medidas tomadas de grupoargos.com: títulos de sección de 45 px, textos de 17 px, botón azul recto
 const h2 = 'font-display text-[34px] font-bold leading-none text-navy md:text-[45px]'
@@ -27,11 +27,17 @@ async function HomeContent({ params }: { params: PageProps<'/[lang]'>['params'] 
   const c = getContent(lang)
   const { company, businesses } = c
   const [lead, ...restNews] = c.news
+  // Datos estructurados para buscadores (schema.org)
+  const jsonLd = {
+    '@context': 'https://schema.org', '@type': 'Organization', name: brand.name, alternateName: brand.fullName,
+    url: siteUrl, logo: `${siteUrl}/img/logo-hen-holding-corp.png`, description: c.meta.description,
+  }
 
   return (
     <>
       <Header lang={lang} nav={c.nav} utility={c.utility} ui={c.ui} />
       <main id="inicio">
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c') }} />
         {/* Portada: texto a la izquierda y la imagen pegada al borde derecho, como en Argos */}
         <section className="grid bg-white lg:min-h-[679px] lg:grid-cols-[minmax(0,1fr)_48.6vw]">
           <div className="flex flex-col px-[max(20px,3.05vw)] py-14 lg:pb-16 lg:pl-[max(20px,6.45vw)] lg:pr-16 lg:pt-[85px]">
