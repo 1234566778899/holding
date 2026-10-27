@@ -10,7 +10,7 @@ export function Footer({ lang, c }: { lang: Locale; c: Content }) {
     <footer className="bg-navy text-white">
       <div className="gutter grid gap-12 py-16 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)] md:py-20">
         <div className="space-y-6">
-          <Image src="/img/logo-hen-blanco.png" alt="HEN Holding Corp" width={872} height={387} className="h-14 w-auto" />
+          <Image src="/img/logo-hen-holding-corp-blanco.png" alt="HEN Holding Corp" width={872} height={387} className="h-14 w-auto" />
           <p className="max-w-xs"><T value={c.company.address} /></p>
           <p className="font-bold"><T value={c.company.phone} /></p>
           <div>

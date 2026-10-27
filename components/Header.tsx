@@ -44,7 +44,7 @@ export function Header({ lang, nav, utility, ui }: Props) {
       <div className="bg-mist">
         <div className="gutter flex h-[76px] items-center justify-between gap-6 md:h-[97px]">
           <a href={`/${lang}`} aria-label={ui.home}>
-            <Image src="/img/logo-hen.png" alt="HEN Holding Corp" width={872} height={387} priority className="h-11 w-auto md:h-[58px]" />
+            <Image src="/img/logo-hen-holding-corp.png" alt="HEN Holding Corp" width={872} height={387} priority className="h-11 w-auto md:h-[58px]" />
           </a>
           <nav aria-label={ui.mainNav} className="hidden h-full lg:block">
             <ul className="flex h-full items-stretch text-[17px] text-navy">
