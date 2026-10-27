@@ -8,12 +8,12 @@ import { ContactForm } from '@/components/ContactForm'
 import { T } from '@/components/T'
 import { brand, getContent, hasLocale } from '@/lib/content'
 
-const container = 'mx-auto w-full max-w-7xl px-6'
-const eyebrow = 'text-xs font-semibold uppercase tracking-[0.18em] text-gold'
-const h2 = 'font-display text-3xl font-semibold text-navy sm:text-4xl'
+// Medidas tomadas de grupoargos.com: títulos de sección de 45 px, textos de 17 px, botón azul recto
+const h2 = 'font-display text-[34px] font-bold leading-none text-navy md:text-[45px]'
+const button = 'inline-block bg-navy px-[34px] pb-[19px] pt-[22px] font-display text-[18.7px] text-white transition-colors hover:bg-steel'
 
 function Arrow() {
-  return <span aria-hidden className="inline-block transition-transform group-hover:translate-x-1">→</span>
+  return <span aria-hidden className="ml-1 inline-block transition-transform group-hover:translate-x-1">→</span>
 }
 
 // La URL se lee dentro de <Suspense> para que la navegación sea instantánea (Next 16 con cacheComponents)
@@ -26,208 +26,177 @@ async function HomeContent({ params }: { params: PageProps<'/[lang]'>['params'] 
   if (!hasLocale(lang)) notFound()
   const c = getContent(lang)
   const { company, businesses } = c
+  const [lead, ...restNews] = c.news
 
   return (
     <>
       <Header lang={lang} nav={c.nav} utility={c.utility} ui={c.ui} />
       <main id="inicio">
-        {/* Portada: texto a la izquierda y mosaico de los negocios a la derecha */}
-        <section className="overflow-hidden bg-white">
-          <div className={`${container} grid items-center gap-12 py-16 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)] lg:py-24`}>
-            <div>
-              <p className={eyebrow}>{brand.fullName}</p>
-              <h1 className="mt-5 font-display text-4xl font-semibold leading-[1.1] text-navy sm:text-5xl lg:text-[3.6rem]">{c.hero.title}</h1>
-              <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted">{c.hero.text}</p>
-              <div className="mt-9 flex flex-wrap gap-3">
-                <a href="#negocios" className="group rounded-md bg-navy px-7 py-3.5 font-semibold text-white transition hover:bg-navy-deep">{c.hero.primary} <Arrow /></a>
-                <a href="#contacto" className="rounded-md border border-navy/25 px-7 py-3.5 font-semibold text-navy transition hover:border-navy">{c.hero.secondary}</a>
-              </div>
+        {/* Portada: texto a la izquierda y la imagen pegada al borde derecho, como en Argos */}
+        <section className="grid bg-white lg:min-h-[679px] lg:grid-cols-[minmax(0,1fr)_48.6vw]">
+          <div className="flex flex-col px-[max(20px,3.05vw)] py-14 lg:pb-16 lg:pl-[max(20px,6.45vw)] lg:pr-16 lg:pt-[85px]">
+            <h1 className="font-display text-[38px] font-bold leading-[1.15] text-navy md:text-[56.1px] md:leading-[71.4px]">{c.hero.title}</h1>
+            <p className="mt-6 max-w-[679px] text-steel">{c.hero.text}</p>
+            <div className="mt-10 flex flex-wrap gap-4">
+              <a href="#negocios" className={button}>{c.hero.primary}</a>
+              <a href="#contacto" className="inline-block border border-navy px-[34px] pb-[19px] pt-[22px] font-display text-[18.7px] text-navy transition-colors hover:bg-navy hover:text-white">{c.hero.secondary}</a>
             </div>
-            <div className="relative">
-              <div className="grid grid-cols-3 grid-rows-2 gap-3">
-                <div className="relative col-span-2 row-span-2 min-h-[22rem] overflow-hidden rounded-lg">
-                  <Image src="/img/inmobiliaria.jpg" alt={c.hero.alts[0]} fill priority sizes="(min-width: 1024px) 36vw, 66vw" className="object-cover" />
+          </div>
+          <div className="relative min-h-[420px]">
+            {/* mosaico de 2 × 2 hasta tener una foto de portada en alta resolución */}
+            <div className="absolute inset-0 grid grid-cols-2 grid-rows-2 gap-[3px] bg-white">
+              {[['/img/inmobiliaria.jpg', c.hero.alts[0]], ['/img/comercio.jpg', c.hero.alts[1]], ['/img/tecnologia.jpg', c.hero.alts[2]], ['/img/industria.jpg', '']].map(([src, alt], i) => (
+                <div key={src} className="relative overflow-hidden">
+                  <Image src={src} alt={alt} fill priority={i < 2} sizes="(min-width: 1024px) 25vw, 50vw" className="object-cover" />
                 </div>
-                <div className="relative overflow-hidden rounded-lg">
-                  <Image src="/img/comercio.jpg" alt={c.hero.alts[1]} fill sizes="(min-width: 1024px) 18vw, 33vw" className="object-cover" />
-                </div>
-                <div className="relative overflow-hidden rounded-lg">
-                  <Image src="/img/tecnologia.jpg" alt={c.hero.alts[2]} fill sizes="(min-width: 1024px) 18vw, 33vw" className="object-cover" />
-                </div>
-              </div>
-              <div className="absolute -bottom-6 left-6 right-6 rounded-lg bg-navy p-5 text-white shadow-xl sm:left-auto sm:right-8 sm:w-72">
-                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-gold">{c.hero.cardEyebrow}</p>
-                <p className="mt-2 font-display text-lg font-semibold leading-snug">{c.hero.card}</p>
-              </div>
+              ))}
+            </div>
+            <div className="absolute bottom-0 right-0 w-full max-w-[374px] bg-navy px-6 py-6 text-white">
+              <p className="font-display text-[22.6px] font-medium leading-none">{c.hero.cardEyebrow}</p>
+              <p className="mt-4 text-[15px] leading-snug text-white/85">{c.hero.card}</p>
             </div>
           </div>
         </section>
 
-        {/* Quiénes somos */}
+        {/* Sobre nosotros */}
         <section id="nosotros" className="bg-white">
-          <div className={`${container} grid gap-10 py-20 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)]`}>
-            <div>
-              <p className={eyebrow}>{c.about.eyebrow}</p>
-              <h2 className={`${h2} mt-4`}>{c.about.title}</h2>
-            </div>
-            <div className="space-y-5 text-lg leading-relaxed text-muted">
-              <p><strong className="font-semibold text-navy">{brand.name}</strong> ({brand.fullName}) {c.about.p1}</p>
-              <p>{c.about.legal[0]} <T value={company.legalName} /> {c.about.legal[1]} <T value={company.ruc} />.</p>
-              <div className="grid gap-px overflow-hidden rounded-lg border border-line bg-line sm:grid-cols-3">
-                {c.about.pillars.map(([t, d]) => (
-                  <div key={t} className="bg-white p-5">
-                    <p className="font-display text-sm font-semibold uppercase tracking-wider text-navy">{t}</p>
-                    <p className="mt-2 text-base">{d}</p>
-                  </div>
-                ))}
-              </div>
+          <div className="gutter py-20 md:py-28">
+            <h2 className={h2}>{c.home.about}</h2>
+            <p className="mt-10 max-w-[1100px] text-[18px] leading-[1.35] text-steel md:text-[20.4px]">
+              <strong className="font-bold text-navy">{brand.name}</strong> ({brand.fullName}) {c.about.p1}
+            </p>
+            <p className="mt-4 max-w-[1100px] text-steel">{c.about.legal[0]} <T value={company.legalName} /> {c.about.legal[1]} <T value={company.ruc} />.</p>
+            <div className="mt-12 grid max-w-[1100px] gap-8 md:grid-cols-3">
+              {c.about.pillars.map(([t, d]) => (
+                <div key={t} className="border-t-[3px] border-navy pt-5">
+                  <p className="font-display text-[22.6px] font-medium text-navy">{t}</p>
+                  <p className="mt-3 text-[15px] leading-[22px] text-navy">{d}</p>
+                </div>
+              ))}
             </div>
           </div>
         </section>
 
-        {/* Cifras */}
+        {/* Cifras: franja azul de 414 px con divisiones verticales */}
         <section aria-label={c.figuresLabel} className="bg-navy text-white">
-          <div className={`${container} grid grid-cols-2 gap-y-10 py-16 md:grid-cols-4`}>
+          <div className="gutter grid grid-cols-2 gap-y-12 py-20 md:min-h-[414px] md:grid-cols-4 md:content-center md:py-0">
             {c.figures.map((f, i) => (
-              <div key={f.label} className={`px-6 ${i % 2 ? 'border-l border-white/20' : ''} ${i === 2 ? 'md:border-l md:border-white/20' : ''}`}>
-                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-white/70">{f.label}</p>
-                <p className="mt-2 font-display text-4xl font-semibold tabular-nums"><T value={f.value} /></p>
-                <p className="mt-1 text-sm text-white/60">{f.note}</p>
+              <div key={f.label} className={`flex justify-center ${i % 2 ? 'border-l border-white/60' : ''} ${i === 2 ? 'md:border-l md:border-white/60' : ''}`}>
+                <div className="px-6">
+                  <p className="font-display text-[15px] font-medium uppercase leading-none">{f.label}</p>
+                  <p className="mt-2 font-display text-[34px] font-bold leading-[41px] tabular-nums"><T value={f.value} /></p>
+                  <p className="text-[15.3px] leading-[18px]">{f.note}</p>
+                </div>
               </div>
             ))}
           </div>
         </section>
 
-        {/* Nuestros negocios */}
+        {/* Nuestros negocios: tarjetas con foto vertical de 400 × 451 */}
         <section id="negocios" className="bg-mist">
-          <div className={`${container} py-20`}>
-            <div className="flex flex-wrap items-end justify-between gap-6">
-              <div className="max-w-2xl">
-                <p className={eyebrow}>{c.businessesSection.eyebrow}</p>
-                <h2 className={`${h2} mt-4`}>{c.businessesSection.title}</h2>
-              </div>
-              <p className="max-w-md text-muted">{c.businessesSection.text}</p>
-            </div>
-            <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="gutter py-20 md:py-[70px]">
+            <h2 className={h2}>{c.home.businesses}</h2>
+            <p className="mt-6 max-w-[760px] text-steel">{c.businessesSection.text}</p>
+            <div className="mt-12 grid gap-x-[25px] gap-y-14 sm:grid-cols-2 lg:grid-cols-4">
               {businesses.map((b) => (
-                <Link key={b.slug} id={b.slug} href={`/${lang}/negocios/${b.slug}`} className="group flex flex-col overflow-hidden rounded-lg bg-white shadow-sm ring-1 ring-line transition hover:-translate-y-0.5 hover:shadow-lg">
-                  <div className="relative aspect-[4/3] overflow-hidden">
-                    <Image src={b.image} alt="" fill sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw" className="object-cover transition duration-500 group-hover:scale-105" />
+                <Link key={b.slug} id={b.slug} href={`/${lang}/negocios/${b.slug}`} className="group flex flex-col">
+                  <div className="relative aspect-[400/451] overflow-hidden">
+                    <Image src={b.image} alt="" fill sizes="(min-width: 1024px) 23vw, (min-width: 640px) 50vw, 100vw" className="object-cover transition duration-500 group-hover:scale-[1.03]" />
                   </div>
-                  <div className="flex flex-1 flex-col p-6">
-                    <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-gold">{b.tag}</p>
-                    <h3 className="mt-2 font-display text-lg font-semibold leading-snug text-navy">{b.title}</h3>
-                    <p className="mt-3 text-[15px] leading-relaxed text-muted">{b.description}</p>
-                    <ul className="mt-4 space-y-1 border-t border-line pt-4 text-sm text-ink">
-                      {b.companies.map((x, i) => <li key={i}><T value={x} /></li>)}
-                    </ul>
-                    <span className="mt-auto pt-5 text-sm font-semibold text-navy">{c.businessesSection.more} <Arrow /></span>
-                  </div>
+                  <h3 className="mt-7 font-display text-[22.6px] font-medium leading-[1.15] text-navy">{b.title}</h3>
+                  <p className="mt-3 text-[11.9px] font-bold uppercase leading-[17.85px] text-steel">{b.tag}</p>
+                  <p className="mt-3 text-[15.1px] leading-[22px] text-navy">{b.description}</p>
+                  <ul className="mt-3 space-y-1 text-[15.1px] text-navy">
+                    {b.companies.map((x, i) => <li key={i}><T value={x} /></li>)}
+                  </ul>
+                  <span className="mt-5 font-display text-[17px] font-medium text-steel group-hover:text-navy">{c.home.readMore}<Arrow /></span>
                 </Link>
               ))}
-              {/* octava casilla: llamado a nuevos socios */}
-              <article className="flex flex-col justify-between rounded-lg bg-navy p-8 text-white">
-                <div>
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-gold">{c.businessesSection.ctaEyebrow}</p>
-                  <h3 className="mt-3 font-display text-2xl font-semibold leading-snug">{c.businessesSection.ctaTitle}</h3>
-                  <p className="mt-3 text-white/75">{c.businessesSection.ctaText}</p>
+              {/* octava casilla: llamado a nuevos socios, del mismo alto que una foto */}
+              <div className="flex aspect-[400/451] flex-col justify-end bg-navy p-8 text-white">
+                <p className="text-[11.9px] font-bold uppercase text-steel-light">{c.businessesSection.ctaEyebrow}</p>
+                <p className="mt-3 font-display text-[27px] font-bold leading-[1.15]">{c.businessesSection.ctaTitle}</p>
+                <p className="mt-4 text-[15px] leading-[22px] text-white/80">{c.businessesSection.ctaText}</p>
+                <a href="#contacto" className="group mt-6 font-display text-[17px] text-white">{c.businessesSection.ctaLink}<Arrow /></a>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Últimas noticias: una grande y dos pequeñas, como en Argos */}
+        <section id="noticias" className="bg-white">
+          <div className="gutter py-20 md:py-[70px]">
+            <h2 className={h2}>{c.home.news}</h2>
+            <div className="mt-14 grid gap-8 lg:grid-cols-[minmax(0,1.9fr)_minmax(0,1fr)_minmax(0,1fr)]">
+              <article className="bg-white">
+                <div className="relative aspect-[825/420]"><Image src={lead.image} alt="" fill sizes="(min-width: 1024px) 46vw, 100vw" className="object-cover" /></div>
+                <h3 className="mt-6 font-display text-[22px] font-bold leading-tight text-navy md:text-[27.2px]"><T value={lead.title} /></h3>
+                <p className="mt-3 text-[15px] font-bold uppercase text-steel"><T value={lead.date} /></p>
+                <p className="mt-3 text-steel">{lead.excerpt}</p>
+              </article>
+              <article className="flex flex-col bg-navy text-white">
+                <div className="flex-1 p-6">
+                  <h3 className="font-display text-[22.1px] font-bold leading-[30.6px]"><T value={restNews[0].title} /></h3>
+                  <p className="mt-4 text-[15px] font-bold uppercase text-steel-light"><T value={restNews[0].date} /></p>
                 </div>
-                <a href="#contacto" className="group mt-8 font-semibold text-gold">{c.businessesSection.ctaLink} <Arrow /></a>
+                <div className="relative aspect-[400/320]"><Image src={restNews[0].image} alt="" fill sizes="(min-width: 1024px) 23vw, 100vw" className="object-cover" /></div>
+              </article>
+              <article>
+                <div className="relative aspect-[400/320]"><Image src={restNews[1].image} alt="" fill sizes="(min-width: 1024px) 23vw, 100vw" className="object-cover" /></div>
+                <h3 className="mt-6 font-display text-[22.1px] font-bold leading-[30.6px] text-navy"><T value={restNews[1].title} /></h3>
+                <p className="mt-3 text-[15px] font-bold uppercase text-steel"><T value={restNews[1].date} /></p>
               </article>
             </div>
           </div>
         </section>
 
-        {/* Inversionistas y gobierno corporativo */}
-        <section id="inversionistas" className="bg-white">
-          <div className={`${container} grid gap-12 py-20 lg:grid-cols-2`}>
-            <div>
-              <p className={eyebrow}>{c.investors.eyebrow}</p>
-              <h2 className={`${h2} mt-4`}>{c.investors.title}</h2>
-              <p className="mt-5 text-lg leading-relaxed text-muted">{c.investors.text}</p>
-              <dl className="mt-8 grid gap-4 sm:grid-cols-2">
-                {c.investors.roles.map((role) => (
-                  <div key={role} className="rounded-lg border border-line p-5">
-                    <dt className="text-sm text-muted">{role}</dt>
-                    <dd className="mt-1 font-semibold text-navy"><T value={c.investors.name} /></dd>
-                  </div>
-                ))}
-              </dl>
-            </div>
-            <div className="rounded-lg bg-mist p-8">
-              <h3 className="font-display text-xl font-semibold text-navy">{c.investors.docsTitle}</h3>
-              <ul className="mt-6 divide-y divide-line">
-                {c.investors.docs.map((d, i) => (
-                  <li key={i} className="flex items-center justify-between gap-4 py-4">
-                    <span className="font-medium text-ink"><T value={d} /></span>
-                    <span className="text-xs"><T value={c.investors.pdf} /></span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </section>
-
-        {/* Sostenibilidad y fundación */}
-        <section id="sostenibilidad" className="bg-navy-deep text-white">
-          <div className="grid lg:grid-cols-2">
-            <div className="relative min-h-[22rem]">
-              <Image src="/img/fundacion.jpg" alt={c.sustainability.alt} fill sizes="(min-width: 1024px) 50vw, 100vw" className="object-cover" />
-            </div>
-            <div className="px-6 py-16 sm:px-12 lg:px-16 lg:py-24">
-              <p className={eyebrow}>{c.sustainability.eyebrow}</p>
-              <h2 className="mt-4 font-display text-3xl font-semibold sm:text-4xl">{c.sustainability.title}</h2>
-              <p className="mt-5 text-lg leading-relaxed text-white/75">
-                {c.sustainability.text[0]} <T value={businesses[6].companies[0]} /> {c.sustainability.text[1]}
-              </p>
-              <ul className="mt-8 grid gap-4 sm:grid-cols-3">
-                {c.sustainability.pillars.map((x) => <li key={x} className="border-t-2 border-gold pt-3 font-display font-semibold">{x}</li>)}
-              </ul>
-            </div>
-          </div>
-        </section>
-
-        {/* Sala de prensa */}
-        <section id="noticias" className="bg-white">
-          <div className={`${container} py-20`}>
-            <p className={eyebrow}>{c.newsSection.eyebrow}</p>
-            <h2 className={`${h2} mt-4`}>{c.newsSection.title}</h2>
-            <div className="mt-12 grid gap-8 md:grid-cols-3">
-              {c.news.map((n, i) => (
-                <article key={i} className="group">
-                  <div className="relative aspect-[16/10] overflow-hidden rounded-lg">
-                    <Image src={n.image} alt="" fill sizes="(min-width: 768px) 33vw, 100vw" className="object-cover transition duration-500 group-hover:scale-105" />
-                  </div>
-                  <p className="mt-5 text-xs font-semibold uppercase tracking-[0.14em] text-muted"><T value={n.date} /></p>
-                  <h3 className="mt-2 font-display text-xl font-semibold leading-snug text-navy"><T value={n.title} /></h3>
-                  <p className="mt-2 text-muted">{n.excerpt}</p>
-                </article>
+        {/* Explora más: inversionistas, sostenibilidad y sala de prensa */}
+        <section id="inversionistas" className="bg-mist">
+          <div className="gutter py-20 md:py-[70px]">
+            <h2 className={h2}>{c.home.explore}</h2>
+            <div id="sostenibilidad" className="mt-14 grid gap-12 md:grid-cols-3">
+              {c.explore.map((col) => (
+                <div key={col.title} className="border-l-[3px] border-navy pl-6">
+                  <h3 className="font-display text-[22.6px] font-bold leading-none text-navy">{col.title}</h3>
+                  <ul className="mt-8 space-y-[18px]">
+                    {col.items.map((x) => <li key={x} className="text-[18.7px] leading-[28px] text-steel">{x}</li>)}
+                  </ul>
+                </div>
               ))}
+            </div>
+            <div className="mt-16 grid gap-8 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
+              <div className="relative aspect-[16/9] md:aspect-auto md:min-h-[320px]">
+                <Image src="/img/fundacion.jpg" alt={c.sustainability.alt} fill sizes="(min-width: 768px) 46vw, 100vw" className="object-cover" />
+              </div>
+              <div className="flex flex-col justify-center bg-white p-8 md:p-12">
+                <p className="text-[11.9px] font-bold uppercase text-steel">{c.sustainability.eyebrow}</p>
+                <h3 className="mt-3 font-display text-[27.2px] font-bold leading-tight text-navy">{c.sustainability.title}</h3>
+                <p className="mt-4 text-steel">{c.sustainability.text[0]} <T value={businesses[6].companies[0]} /> {c.sustainability.text[1]}</p>
+                <Link href={`/${lang}/negocios/fundacion`} className="group mt-6 font-display text-[17px] text-navy">{c.home.readMore}<Arrow /></Link>
+              </div>
             </div>
           </div>
         </section>
 
         {/* Contacto */}
-        <section id="contacto" className="border-t border-line bg-mist">
-          <div className={`${container} grid gap-12 py-20 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.5fr)]`}>
+        <section id="contacto" className="bg-white">
+          <div className="gutter grid gap-14 py-20 md:py-[70px] lg:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)]">
             <div>
-              <p className={eyebrow}>{c.contact.eyebrow}</p>
-              <h2 className={`${h2} mt-4`}>{c.contact.title}</h2>
-              <p className="mt-5 text-lg text-muted">{c.contact.text}</p>
+              <h2 className={h2}>{c.contact.title}</h2>
+              <p className="mt-6 text-steel">{c.contact.text}</p>
               <dl className="mt-10 space-y-6">
                 {([['address', company.address], ['email', company.email], ['phone', company.phone]] as const).map(([k, v]) => (
                   <div key={k}>
-                    <dt className="text-xs font-semibold uppercase tracking-[0.16em] text-muted">{c.contact.labels[k]}</dt>
-                    <dd className="mt-1 text-lg text-navy"><T value={v} /></dd>
+                    <dt className="text-[11.9px] font-bold uppercase text-steel">{c.contact.labels[k]}</dt>
+                    <dd className="mt-1 text-[18.7px] text-navy"><T value={v} /></dd>
                   </div>
                 ))}
               </dl>
             </div>
-            <div className="rounded-lg bg-white p-6 shadow-sm ring-1 ring-line sm:p-10"><ContactForm t={c.contact.form} /></div>
+            <div className="bg-mist p-6 sm:p-10"><ContactForm t={c.contact.form} /></div>
           </div>
         </section>
       </main>
-
       <Footer lang={lang} c={c} />
     </>
   )

@@ -11,7 +11,7 @@ export const pending = (label: string): Pending => ({ pending: label })
 export type Text = string | Pending
 
 /** Datos que no cambian con el idioma */
-export const brand = { name: 'Grupo HEN', fullName: 'Hub Earth Nexus', domain: 'grupohen.com' }
+export const brand = { name: 'HEN Holding Corp', fullName: 'Hub Earth Nexus', domain: 'grupohen.com' }
 
 const images = {
   investments: '/img/inmobiliaria.jpg', trade: '/img/comercio.jpg', technology: '/img/tecnologia.jpg', services: '/img/servicios.jpg',
@@ -22,7 +22,7 @@ export type Business = { slug: string; tag: string; title: string; image: string
 
 const es = {
   meta: {
-    title: 'Grupo HEN · Hub Earth Nexus',
+    title: 'HEN Holding Corp · Hub Earth Nexus',
     description: 'Holding peruano con inversiones en el sector inmobiliario y financiero, comercio exterior, tecnología, servicios corporativos, industria, nuevos mercados y responsabilidad social.',
   },
   company: {
@@ -37,7 +37,7 @@ const es = {
   utility: [
     { href: '#contacto', label: 'Contacto' }, { href: '#contacto', label: 'Trabaja con nosotros' }, { href: '#sostenibilidad', label: 'Fundación' },
   ],
-  ui: { menu: 'Menú', close: 'Cerrar', home: 'Grupo HEN, inicio', mainNav: 'Principal', footerNav: 'Pie de página', language: 'Idioma', pendingTitle: 'Dato pendiente de definir' },
+  ui: { menu: 'Menú', close: 'Cerrar', home: 'HEN Holding Corp, inicio', mainNav: 'Principal', footerNav: 'Pie de página', language: 'Idioma', pendingTitle: 'Dato pendiente de definir' },
   hero: {
     title: 'Conectamos capital, talento y mercados para construir el futuro.',
     text: 'Somos un holding peruano que invierte y desarrolla empresas en siete líneas de negocio: del sector inmobiliario y financiero al comercio exterior, la tecnología, la industria y el impacto social.',
@@ -105,8 +105,18 @@ const es = {
     pillars: ['Educación', 'Comunidades', 'Medio ambiente'],
   },
   newsSection: { eyebrow: 'Sala de prensa', title: 'Noticias del grupo' },
+  home: {
+    about: 'Sobre nosotros', aboutMore: 'Conoce nuestros negocios', news: 'Últimas noticias', readMore: 'Conocer más',
+    businesses: 'Nuestros negocios', explore: 'Explora más', sitemap: 'Mapa del sitio', social: 'Redes sociales',
+    figuresNote: 'Datos por confirmar',
+  },
+  explore: [
+    { title: 'Relación con el inversionista', items: ['Gobierno corporativo', 'Directorio y gerencia', 'Estatuto social', 'Memoria anual'] },
+    { title: 'Sostenibilidad', items: ['Fundación', 'Educación', 'Comunidades', 'Medio ambiente'] },
+    { title: 'Sala de prensa', items: ['Noticias', 'Kit de prensa', 'HEN Holding Corp en redes sociales'] },
+  ],
   news: [
-    { date: pending('Fecha'), title: 'Grupo HEN presenta su nueva identidad corporativa' as Text, excerpt: 'El holding reúne sus siete líneas de negocio bajo una sola marca.', image: images.group },
+    { date: pending('Fecha'), title: 'HEN Holding Corp presenta su nueva identidad corporativa' as Text, excerpt: 'El holding reúne sus siete líneas de negocio bajo una sola marca.', image: images.group },
     { date: pending('Fecha'), title: 'Recreo+ se integra a la línea de Tecnología' as Text, excerpt: 'La plataforma de kioscos escolares atiende a colegios, institutos y universidades del Perú.', image: images.technology },
     { date: pending('Fecha'), title: pending('Titular de la noticia'), excerpt: 'Espacio para la próxima novedad del grupo.', image: images.markets },
   ],
@@ -131,7 +141,7 @@ export type Content = typeof es
 
 const en: Content = {
   meta: {
-    title: 'Grupo HEN · Hub Earth Nexus',
+    title: 'HEN Holding Corp · Hub Earth Nexus',
     description: 'Peruvian holding company investing in real estate and finance, international trade, technology, corporate services, industry, new markets and social responsibility.',
   },
   company: {
@@ -146,7 +156,7 @@ const en: Content = {
   utility: [
     { href: '#contacto', label: 'Contact' }, { href: '#contacto', label: 'Careers' }, { href: '#sostenibilidad', label: 'Foundation' },
   ],
-  ui: { menu: 'Menu', close: 'Close', home: 'Grupo HEN, home', mainNav: 'Main', footerNav: 'Footer', language: 'Language', pendingTitle: 'Information to be confirmed' },
+  ui: { menu: 'Menu', close: 'Close', home: 'HEN Holding Corp, home', mainNav: 'Main', footerNav: 'Footer', language: 'Language', pendingTitle: 'Information to be confirmed' },
   hero: {
     title: 'We connect capital, talent and markets to build the future.',
     text: 'We are a Peruvian holding company that invests in and builds businesses across seven lines: from real estate and finance to international trade, technology, industry and social impact.',
@@ -214,8 +224,18 @@ const en: Content = {
     pillars: ['Education', 'Communities', 'Environment'],
   },
   newsSection: { eyebrow: 'Newsroom', title: 'Group news' },
+  home: {
+    about: 'About us', aboutMore: 'Explore our businesses', news: 'Latest news', readMore: 'Learn more',
+    businesses: 'Our businesses', explore: 'Explore more', sitemap: 'Site map', social: 'Social media',
+    figuresNote: 'To be confirmed',
+  },
+  explore: [
+    { title: 'Investor relations', items: ['Corporate governance', 'Board and management', 'Articles of association', 'Annual report'] },
+    { title: 'Sustainability', items: ['Foundation', 'Education', 'Communities', 'Environment'] },
+    { title: 'Newsroom', items: ['News', 'Press kit', 'HEN Holding Corp on social media'] },
+  ],
   news: [
-    { date: pending('Date'), title: 'Grupo HEN unveils its new corporate identity', excerpt: 'The holding company brings its seven business lines together under one brand.', image: images.group },
+    { date: pending('Date'), title: 'HEN Holding Corp unveils its new corporate identity', excerpt: 'The holding company brings its seven business lines together under one brand.', image: images.group },
     { date: pending('Date'), title: 'Recreo+ joins the Technology business line', excerpt: 'The school kiosk platform serves schools, institutes and universities across Peru.', image: images.technology },
     { date: pending('Date'), title: pending('Headline'), excerpt: 'Space for the group’s next announcement.', image: images.markets },
   ],

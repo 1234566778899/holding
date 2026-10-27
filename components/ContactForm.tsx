@@ -10,14 +10,14 @@ export function ContactForm({ t }: { t: Content['contact']['form'] }) {
     e.preventDefault()
     if (e.currentTarget.reportValidity()) setSent(true)
   }
-  const field = 'w-full rounded-md border border-line bg-white px-4 py-3 text-ink outline-none transition focus:border-navy focus:ring-2 focus:ring-navy/15'
-  const label = 'grid gap-2 text-sm font-semibold text-navy'
+  const field = 'w-full border border-line bg-white px-4 py-3 text-navy outline-none transition focus:border-navy'
+  const label = 'grid gap-2 text-[15px] font-bold text-navy'
   if (sent) {
     return (
-      <div className="rounded-lg border border-gold/50 bg-gold-soft/40 p-8">
-        <p className="font-display text-xl font-semibold text-navy">{t.sentTitle}</p>
-        <p className="mt-2 text-muted">{t.sentText}</p>
-        <button type="button" onClick={() => setSent(false)} className="mt-6 text-sm font-semibold text-navy underline underline-offset-4">{t.again}</button>
+      <div className="border-l-[3px] border-navy bg-white p-8">
+        <p className="font-display text-[22.6px] font-bold text-navy">{t.sentTitle}</p>
+        <p className="mt-2 text-steel">{t.sentText}</p>
+        <button type="button" onClick={() => setSent(false)} className="mt-6 text-[15px] font-bold text-navy underline underline-offset-4">{t.again}</button>
       </div>
     )
   }
@@ -32,7 +32,7 @@ export function ContactForm({ t }: { t: Content['contact']['form'] }) {
       </label>
       <label className={`${label} sm:col-span-2`}>{t.message}<textarea id="c-mensaje" required rows={5} className={field} /></label>
       <div className="sm:col-span-2">
-        <button type="submit" className="rounded-md bg-navy px-7 py-3.5 font-semibold text-white transition hover:bg-navy-deep">{t.submit}</button>
+        <button type="submit" className="bg-navy px-[34px] pb-[19px] pt-[22px] font-display text-[18.7px] text-white transition-colors hover:bg-steel">{t.submit}</button>
       </div>
     </form>
   )

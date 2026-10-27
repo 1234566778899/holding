@@ -1,31 +1,41 @@
 @import "tailwindcss";
 
-/* Marca Grupo HEN: azul marino del logotipo y dorado de la «E»; neutros con un leve tinte azul. */
+/*
+ * Sistema visual tomado de grupoargos.com (medido en su página a 1800 px de ancho):
+ * títulos en Franklin Gothic (aquí Libre Franklin, su equivalente libre), texto en Open Sans 17 px,
+ * azul marino #021D49, azul acero #477995 para textos secundarios, fondos #F8F9FD y #E3ECF0,
+ * esquinas rectas y sin sombras. El dorado es el acento de la marca HEN.
+ */
 @theme {
-  --color-navy: #0f2a44;
-  --color-navy-deep: #0a1d30;
+  --color-navy: #021d49;
+  --color-navy-deep: #01142f;
+  --color-steel: #477995;
+  --color-steel-light: #a3bcca;
   --color-gold: #b8893a;
   --color-gold-soft: #e9dcc2;
-  --color-mist: #f3f5f8;
-  --color-line: #dde3ea;
-  --color-ink: #13202e;
-  --color-muted: #5a6878;
+  --color-mist: #f8f9fd;
+  --color-haze: #e3ecf0;
+  --color-line: #d6e0e6;
   --font-sans: var(--font-body);
   --font-display: var(--font-heading);
+  --text-body: 17px;
+  --text-body--line-height: 1.5;
 }
 
 html { scroll-behavior: smooth; scroll-padding-top: 84px; }
-@media (min-width: 768px) { html { scroll-padding-top: 124px; } }
+@media (min-width: 768px) { html { scroll-padding-top: 150px; } }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
-body { background: #fff; color: var(--color-ink); }
+body { background: #fff; color: var(--color-navy); font-size: 17px; line-height: 1.5; }
 h1, h2, h3 { text-wrap: balance; }
 :focus-visible { outline: 2px solid var(--color-gold); outline-offset: 3px; }
+
+/* márgenes laterales de Argos: 55 px a 1800 px de ancho */
+@utility gutter { padding-left: max(20px, 3.05vw); padding-right: max(20px, 3.05vw); }
 
 /* Datos pendientes de definir: visibles a propósito para reemplazarlos antes de publicar */
 .pending {
   background: repeating-linear-gradient(-45deg, rgb(184 137 58 / .16) 0 6px, rgb(184 137 58 / .08) 6px 12px);
   border: 1px dashed var(--color-gold);
-  border-radius: 4px;
   padding: 0 .35em;
   color: inherit;
   white-space: nowrap;

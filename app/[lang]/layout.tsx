@@ -1,12 +1,12 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import { Montserrat, Source_Sans_3 } from 'next/font/google'
+import { Libre_Franklin, Open_Sans } from 'next/font/google'
 import { getContent, hasLocale, locales } from '@/lib/content'
 import '../globals.css'
 
-// Montserrat acompaña la tipografía geométrica del logotipo; Source Sans 3 para textos largos
-const heading = Montserrat({ variable: '--font-heading', subsets: ['latin'], weight: ['500', '600', '700'] })
-const body = Source_Sans_3({ variable: '--font-body', subsets: ['latin'] })
+// Como grupoargos.com: Franklin Gothic en títulos (Libre Franklin es su equivalente libre) y Open Sans en el texto
+const heading = Libre_Franklin({ variable: '--font-heading', subsets: ['latin'], weight: ['400', '500', '700'] })
+const body = Open_Sans({ variable: '--font-body', subsets: ['latin'], weight: ['400', '700'] })
 
 export function generateStaticParams() {
   return locales.map((lang) => ({ lang }))
