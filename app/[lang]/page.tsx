@@ -6,6 +6,7 @@ import { Header } from '@/components/Header'
 import { Footer } from '@/components/Footer'
 import { ContactForm } from '@/components/ContactForm'
 import { T } from '@/components/T'
+import { Photo } from '@/components/Photo'
 import { brand, getContent, hasLocale, siteUrl } from '@/lib/content'
 
 // Medidas tomadas de grupoargos.com: títulos de sección de 45 px, textos de 17 px, botón azul recto
@@ -26,6 +27,7 @@ async function HomeContent({ params }: { params: PageProps<'/[lang]'>['params'] 
   if (!hasLocale(lang)) notFound()
   const c = getContent(lang)
   const { company, businesses } = c
+  const foundation = businesses.find((b) => b.slug === 'fundacion')!
   const [lead, ...restNews] = c.news
   // Datos estructurados para buscadores (schema.org)
   const jsonLd = {
@@ -107,7 +109,7 @@ async function HomeContent({ params }: { params: PageProps<'/[lang]'>['params'] 
               {businesses.map((b) => (
                 <Link key={b.slug} id={b.slug} href={`/${lang}/negocios/${b.slug}`} className="group flex flex-col">
                   <div className="relative aspect-[400/451] overflow-hidden">
-                    <Image src={b.image} alt="" fill sizes="(min-width: 1024px) 23vw, (min-width: 640px) 50vw, 100vw" className="object-cover transition duration-500 group-hover:scale-[1.03]" />
+                    <Photo src={b.image} sizes="(min-width: 1024px) 23vw, (min-width: 640px) 50vw, 100vw" className="object-cover transition duration-500 group-hover:scale-[1.03]" />
                   </div>
                   <h3 className="mt-7 font-display text-[22.6px] font-medium leading-[1.15] text-navy">{b.title}</h3>
                   <p className="mt-3 text-[11.9px] font-bold uppercase leading-[17.85px] text-steel">{b.tag}</p>
@@ -118,7 +120,7 @@ async function HomeContent({ params }: { params: PageProps<'/[lang]'>['params'] 
                   <span className="mt-5 font-display text-[17px] font-medium text-steel group-hover:text-navy">{c.home.readMore}<Arrow /></span>
                 </Link>
               ))}
-              {/* octava casilla: llamado a nuevos socios, del mismo alto que una foto */}
+              {/* última casilla: llamado a nuevos socios, del mismo alto que una foto */}
               <div className="flex aspect-[400/451] flex-col justify-end bg-navy p-8 text-white">
                 <p className="text-[11.9px] font-bold uppercase text-steel-light">{c.businessesSection.ctaEyebrow}</p>
                 <p className="mt-3 font-display text-[27px] font-bold leading-[1.15]">{c.businessesSection.ctaTitle}</p>
@@ -177,7 +179,7 @@ async function HomeContent({ params }: { params: PageProps<'/[lang]'>['params'] 
               <div className="flex flex-col justify-center bg-white p-8 md:p-12">
                 <p className="text-[11.9px] font-bold uppercase text-steel">{c.sustainability.eyebrow}</p>
                 <h3 className="mt-3 font-display text-[27.2px] font-bold leading-tight text-navy">{c.sustainability.title}</h3>
-                <p className="mt-4 text-steel">{c.sustainability.text[0]} <T value={businesses[6].companies[0]} /> {c.sustainability.text[1]}</p>
+                <p className="mt-4 text-steel">{c.sustainability.text[0]} <T value={foundation.companies[0]} /> {c.sustainability.text[1]}</p>
                 <Link href={`/${lang}/negocios/fundacion`} className="group mt-6 font-display text-[17px] text-navy">{c.home.readMore}<Arrow /></Link>
               </div>
             </div>

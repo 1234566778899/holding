@@ -6,6 +6,7 @@ import { notFound } from 'next/navigation'
 import { Header } from '@/components/Header'
 import { Footer } from '@/components/Footer'
 import { T } from '@/components/T'
+import { Photo } from '@/components/Photo'
 import { getContent, hasLocale, locales } from '@/lib/content'
 import { getLineDetail, lineUi } from '@/lib/lines'
 
@@ -29,12 +30,13 @@ export async function generateMetadata({ params }: PageProps<'/[lang]/negocios/[
   if (!d) return {}
   const title = `${d.line.tag} · HEN Holding Corp`
   const url = `/${lang}/negocios/${slug}`
+  const images = typeof d.line.image === 'string' ? [d.line.image] : undefined
   return {
     title,
     description: d.line.description,
     alternates: { canonical: url, languages: { es: `/es/negocios/${slug}`, en: `/en/negocios/${slug}`, 'x-default': `/es/negocios/${slug}` } },
-    openGraph: { title, description: d.line.description, url, images: [{ url: d.line.image, alt: d.line.title }] },
-    twitter: { card: 'summary_large_image', title, description: d.line.description, images: [d.line.image] },
+    openGraph: { title, description: d.line.description, url, images: images?.map((src) => ({ url: src, alt: d.line.title })) },
+    twitter: { card: 'summary_large_image', title, description: d.line.description, images },
   }
 }
 
@@ -57,7 +59,7 @@ async function LinePageContent({ params }: { params: PageProps<'/[lang]/negocios
       <main>
         {/* Banner de la línea: foto atenuada con el nombre encima */}
         <section className="relative isolate overflow-hidden bg-navy text-white">
-          <Image src={line.image} alt="" fill priority sizes="100vw" className="-z-10 object-cover opacity-35" />
+          {typeof line.image === 'string' && <Image src={line.image} alt="" fill priority sizes="100vw" className="-z-10 object-cover opacity-35" />}
           <div className="absolute inset-0 -z-10 bg-gradient-to-r from-navy via-navy/90 to-navy/40" aria-hidden />
           <div className="px-[max(20px,3.05vw)] py-16 md:py-24 lg:pl-[max(20px,6.45vw)]">
             <nav aria-label="Breadcrumb" className="text-[15px] text-white/75">
@@ -93,11 +95,22 @@ async function LinePageContent({ params }: { params: PageProps<'/[lang]/negocios
         <section className="bg-mist">
           <div className="gutter py-20 md:py-[70px]">
             <h2 className={h2}>{ui.services}</h2>
-            <div className="mt-12 grid gap-[25px] sm:grid-cols-2 lg:grid-cols-4">
+            {/* 3 columnas si los servicios llenan las filas; si no, 2. Un servicio con sub-ítems ocupa toda la fila */}
+            <div className={`mt-12 grid gap-[25px] md:grid-cols-2 ${detail.services.length % 3 === 0 ? 'lg:grid-cols-3' : ''}`}>
               {detail.services.map((s) => (
-                <article key={s.title} className="border-t-[3px] border-navy bg-white p-8">
+                <article key={s.title} className={`border-t-[3px] border-navy bg-white p-8 ${s.items ? 'md:col-span-full' : ''}`}>
                   <h3 className="font-display text-[22.6px] font-medium leading-[1.15] text-navy">{s.title}</h3>
-                  <p className="mt-4 text-[15.1px] leading-[22px] text-navy">{s.text}</p>
+                  <p className="mt-4 max-w-[1100px] text-[15.1px] leading-[22px] text-navy">{s.text}</p>
+                  {s.items && (
+                    <ul className="mt-8 grid gap-x-10 gap-y-6 md:grid-cols-2 lg:grid-cols-3">
+                      {s.items.map((x) => (
+                        <li key={x.title} className="border-l-[3px] border-steel-light pl-5">
+                          <p className="font-display text-[17px] font-bold text-navy">{x.title}</p>
+                          <p className="mt-2 text-[15.1px] leading-[22px] text-steel">{x.text}</p>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </article>
               ))}
             </div>
@@ -174,11 +187,11 @@ async function LinePageContent({ params }: { params: PageProps<'/[lang]/negocios
               <h2 className={h2}>{ui.others}</h2>
               <Link href={`/${lang}#negocios`} className="font-display text-[17px] font-medium text-steel hover:text-navy">{ui.back} →</Link>
             </div>
-            <div className="mt-12 grid gap-x-[25px] gap-y-10 sm:grid-cols-3 lg:grid-cols-6">
+            <div className="mt-12 grid grid-cols-2 gap-x-[25px] gap-y-10 sm:grid-cols-3 lg:grid-cols-5">
               {others.map((b) => (
                 <Link key={b.slug} href={`/${lang}/negocios/${b.slug}`} className="group">
                   <div className="relative aspect-[400/451] overflow-hidden">
-                    <Image src={b.image} alt="" fill sizes="(min-width: 1024px) 16vw, 33vw" className="object-cover transition duration-500 group-hover:scale-[1.03]" />
+                    <Photo src={b.image} sizes="(min-width: 1024px) 19vw, (min-width: 640px) 33vw, 50vw" className="object-cover transition duration-500 group-hover:scale-[1.03]" />
                   </div>
                   <p className="mt-4 text-[11.9px] font-bold uppercase text-steel">{b.tag}</p>
                   <p className="mt-1 font-display text-[17px] font-medium leading-snug text-navy group-hover:underline">{b.title}</p>
