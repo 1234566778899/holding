@@ -16,7 +16,7 @@ export const siteUrl = `https://${brand.domain}`
 
 const images = {
   investments: '/img/inmobiliaria.jpg', trade: '/img/comercio.jpg', technology: '/img/tecnologia.jpg', services: '/img/servicios.jpg',
-  industry: '/img/industria.jpg', finance: '/img/mercados.jpg', creative: '/img/entretenimiento.jpg', foundation: '/img/fundacion.jpg', group: '/img/grupo.jpg',
+  industry: '/img/industria.jpg', finance: '/img/mercados.jpg', creative: '/img/entretenimiento.jpg', sports: '/img/deportes.jpg', technical: '/img/servicios-tecnicos.jpg', foundation: '/img/fundacion.jpg', group: '/img/grupo.jpg',
 }
 
 // `image` puede quedar pendiente: la web muestra el espacio de la foto resaltado hasta tenerla
@@ -93,10 +93,10 @@ const es = {
     { slug: 'industria', tag: 'Industria y energía', title: 'Industria, Manufactura, Retail, Energía e Infraestructura', image: images.industry,
       description: 'Operamos plantas agroindustriales y pesqueras, cadenas de retail, proyectos mineros y energéticos, y obras de infraestructura.',
       companies: [pending('Empresas de esta línea')] },
-    { slug: 'deportes', tag: 'Deportes', title: 'Deportes, Clubes, Franquicias, Estadios, Ligas y Gestión Deportiva Global', image: pending('Foto de la línea'),
+    { slug: 'deportes', tag: 'Deportes', title: 'Deportes, Clubes, Franquicias, Estadios, Ligas y Gestión Deportiva Global', image: images.sports,
       description: 'Creamos e invertimos en clubes y academias, administramos estadios, organizamos ligas y gestionamos derechos y patrocinios deportivos.',
       companies: [pending('Empresas de esta línea')] },
-    { slug: 'servicios-tecnicos', tag: 'Servicios técnicos', title: 'Talleres, Servicios Técnicos Especializados y Generales', image: pending('Foto de la línea'),
+    { slug: 'servicios-tecnicos', tag: 'Servicios técnicos', title: 'Talleres, Servicios Técnicos Especializados y Generales', image: images.technical,
       description: 'Talleres automotrices, electricidad, gasfitería, limpieza, climatización, seguridad electrónica y logística urbana para hogares y empresas.',
       companies: [pending('Empresas de esta línea')] },
     { slug: 'fundacion', tag: 'Fundación', title: 'Fundaciones, Organizaciones No Gubernamentales (ONG) y Filantropía Global', image: images.foundation,
@@ -221,10 +221,10 @@ const en: Content = {
     { slug: 'industria', tag: 'Industry and energy', title: 'Industry, Manufacturing, Retail, Energy and Infrastructure', image: images.industry,
       description: 'We run agribusiness and fishing plants, retail chains, mining and energy projects, and infrastructure works.',
       companies: [pending('Companies in this line')] },
-    { slug: 'deportes', tag: 'Sports', title: 'Sports, Clubs, Franchises, Stadiums, Leagues and Global Sports Management', image: pending('Line photo'),
+    { slug: 'deportes', tag: 'Sports', title: 'Sports, Clubs, Franchises, Stadiums, Leagues and Global Sports Management', image: images.sports,
       description: 'We create and invest in clubs and academies, run stadiums, organise leagues and manage sports rights and sponsorship.',
       companies: [pending('Companies in this line')] },
-    { slug: 'servicios-tecnicos', tag: 'Technical services', title: 'Workshops, Specialised and General Technical Services', image: pending('Line photo'),
+    { slug: 'servicios-tecnicos', tag: 'Technical services', title: 'Workshops, Specialised and General Technical Services', image: images.technical,
       description: 'Auto repair, electrical, plumbing, cleaning, air conditioning, electronic security and urban logistics for homes and businesses.',
       companies: [pending('Companies in this line')] },
     { slug: 'fundacion', tag: 'Foundation', title: 'Foundations, Non-Governmental Organisations (NGOs) and Global Philanthropy', image: images.foundation,
