@@ -16,7 +16,7 @@ export const siteUrl = `https://${brand.domain}`
 
 const images = {
   investments: '/img/inmobiliaria.jpg', trade: '/img/comercio.jpg', technology: '/img/tecnologia.jpg', services: '/img/servicios.jpg',
-  industry: '/img/industria.jpg', finance: '/img/mercados.jpg', foundation: '/img/fundacion.jpg', group: '/img/grupo.jpg',
+  industry: '/img/industria.jpg', finance: '/img/mercados.jpg', creative: '/img/entretenimiento.jpg', foundation: '/img/fundacion.jpg', group: '/img/grupo.jpg',
 }
 
 // `image` puede quedar pendiente: la web muestra el espacio de la foto resaltado hasta tenerla
@@ -75,7 +75,7 @@ const es = {
     { slug: 'finanzas', tag: 'Banca y fintech', title: 'Banca, Servicios Financieros, Fintech y Ecosistemas de Inversión', image: images.finance,
       description: 'Constituimos y operamos entidades financieras y fintech, administramos fondos de capital de riesgo y desarrollamos finanzas descentralizadas.',
       companies: [pending('Empresas de esta línea')] },
-    { slug: 'entretenimiento', tag: 'Industria creativa', title: 'Industria Creativa, Productoras, Agencias de Medios, Entretenimiento y Gaming', image: pending('Foto de la línea'),
+    { slug: 'entretenimiento', tag: 'Industria creativa', title: 'Industria Creativa, Productoras, Agencias de Medios, Entretenimiento y Gaming', image: images.creative,
       description: 'Producimos contenidos audiovisuales, representamos talentos, operamos agencias de medios y eventos, y desarrollamos videojuegos y e-sports.',
       companies: [pending('Empresas de esta línea')] },
     { slug: 'inversiones', tag: 'Holding e inmobiliaria', title: 'Holding Corporativo, Gestión de Inversiones Patrimoniales y Macroproyectos Inmobiliarios', image: images.investments,
@@ -203,7 +203,7 @@ const en: Content = {
     { slug: 'finanzas', tag: 'Banking and fintech', title: 'Banking, Financial Services, Fintech and Investment Ecosystems', image: images.finance,
       description: 'We incorporate and run financial institutions and fintechs, manage venture capital funds and build decentralised finance.',
       companies: [pending('Companies in this line')] },
-    { slug: 'entretenimiento', tag: 'Creative industries', title: 'Creative Industries, Production Companies, Media Agencies, Entertainment and Gaming', image: pending('Line photo'),
+    { slug: 'entretenimiento', tag: 'Creative industries', title: 'Creative Industries, Production Companies, Media Agencies, Entertainment and Gaming', image: images.creative,
       description: 'We produce audiovisual content, represent talent, run media and events agencies, and build games and e-sports.',
       companies: [pending('Companies in this line')] },
     { slug: 'inversiones', tag: 'Holding and real estate', title: 'Corporate Holding, Wealth Investment Management and Large-Scale Real Estate', image: images.investments,
