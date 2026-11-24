@@ -1,13 +1,14 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import Script from 'next/script'
-import { Libre_Franklin, Open_Sans } from 'next/font/google'
+import { Aleo, Ruda } from 'next/font/google'
+import { MotionProvider } from '@/components/motion'
 import { brand, getContent, hasLocale, locales, siteUrl } from '@/lib/content'
 import '../globals.css'
 
-// Como grupoargos.com: Franklin Gothic en títulos (Libre Franklin es su equivalente libre) y Open Sans en el texto
-const heading = Libre_Franklin({ variable: '--font-heading', subsets: ['latin'], weight: ['400', '500', '700'] })
-const body = Open_Sans({ variable: '--font-body', subsets: ['latin'], weight: ['400', '700'] })
+// Como gruporomero.com.pe: Aleo (serif slab) en títulos y Ruda en el texto
+const heading = Aleo({ variable: '--font-heading', subsets: ['latin'] })
+const body = Ruda({ variable: '--font-body', subsets: ['latin'] })
 
 // Google Analytics 4 (propiedad «Grupo HEN - grupohen.com»). Solo en producción, para no contar las visitas de prueba.
 const gaId = 'G-1QPC8D10CL'
@@ -40,10 +41,10 @@ export default async function RootLayout({ children, params }: LayoutProps<'/[la
   const { lang } = await params
   if (!hasLocale(lang)) notFound()
   return (
-    <html lang={lang} data-scroll-behavior="smooth" className={`${heading.variable} ${body.variable} antialiased`}>
+    <html lang={lang} className={`${heading.variable} ${body.variable} antialiased`}>
       {/* suppressHydrationWarning: extensiones del navegador (p. ej. ColorZilla) agregan atributos al body */}
       <body className="min-h-full font-sans" suppressHydrationWarning>
-        {children}
+        <MotionProvider>{children}</MotionProvider>
         {analytics && <>
           <Script src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`} strategy="afterInteractive" />
           <Script id="ga" strategy="afterInteractive">

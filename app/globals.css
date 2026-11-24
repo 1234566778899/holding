@@ -1,42 +1,67 @@
 @import "tailwindcss";
 
 /*
- * Sistema visual tomado de grupoargos.com (medido en su página a 1800 px de ancho):
- * títulos en Franklin Gothic (aquí Libre Franklin, su equivalente libre), texto en Open Sans 17 px,
- * azul marino #021D49, azul acero #477995 para textos secundarios, fondos #F8F9FD y #E3ECF0,
- * esquinas rectas y sin sombras. El dorado es el acento de la marca HEN.
+ * Sistema visual inspirado en gruporomero.com.pe: titulares en serif slab (Aleo), texto en Ruda,
+ * hero oscuro a pantalla completa, bloques de color desplazados detrás de las fotos, paneles grises con
+ * una esquina cortada, una barra corta de color bajo cada título y botones con borde fino.
+ * Colores de la marca HEN: azul marino y dorado; cada sección usa su propio acento.
  */
 @theme {
   --color-navy: #021d49;
-  --color-navy-deep: #01142f;
+  --color-navy-deep: #01122c;
+  --color-ink: #1d1f26;
   --color-steel: #477995;
   --color-steel-light: #a3bcca;
   --color-gold: #b8893a;
+  --color-gold-light: #d9b36c;
   --color-gold-soft: #e9dcc2;
-  --color-mist: #f8f9fd;
-  --color-haze: #e3ecf0;
-  --color-line: #d6e0e6;
+  --color-sage: #7fae5a;
+  --color-lavender: #a9b4e0;
+  --color-paper: #f2f3f5;
+  --color-mist: #f8f9fb;
+  --color-line: #dcdfe5;
+  --color-muted: #6b7080;
   --font-sans: var(--font-body);
   --font-display: var(--font-heading);
-  --text-body: 17px;
-  --text-body--line-height: 1.5;
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-html { scroll-behavior: smooth; scroll-padding-top: 84px; }
-@media (min-width: 768px) { html { scroll-padding-top: 150px; } }
-@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
-body { background: #fff; color: var(--color-navy); font-size: 17px; line-height: 1.5; }
-h1, h2, h3 { text-wrap: balance; }
-:focus-visible { outline: 2px solid var(--color-gold); outline-offset: 3px; }
+@layer base {
+  html { scroll-padding-top: 72px; }
+  body { background: #fff; color: var(--color-muted); font-size: 16px; line-height: 1.6; }
+  h1, h2, h3 { text-wrap: balance; color: var(--color-ink); }
+  :focus-visible { outline: 2px solid var(--color-gold); outline-offset: 3px; }
+}
 
-/* márgenes laterales de Argos: 55 px a 1800 px de ancho */
-@utility gutter { padding-left: max(20px, 3.05vw); padding-right: max(20px, 3.05vw); }
+/* Lenis (scroll suave) */
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-stopped { overflow: hidden; }
 
-/* Datos pendientes de definir: visibles a propósito para reemplazarlos antes de publicar */
-.pending {
-  background: repeating-linear-gradient(-45deg, rgb(184 137 58 / .16) 0 6px, rgb(184 137 58 / .08) 6px 12px);
-  border: 1px dashed var(--color-gold);
-  padding: 0 .35em;
-  color: inherit;
-  white-space: nowrap;
+/* márgenes laterales: el contenido vive en una columna centrada como en Grupo Romero */
+@utility gutter { padding-left: max(20px, 9vw); padding-right: max(20px, 9vw); }
+
+/* panel con la esquina superior izquierda cortada en diagonal */
+@utility chamfer-tl { clip-path: polygon(64px 0, 100% 0, 100% 100%, 0 100%, 0 64px); }
+@utility chamfer-tr { clip-path: polygon(0 0, calc(100% - 64px) 0, 100% 64px, 100% 100%, 0 100%); }
+@utility chamfer-br { clip-path: polygon(0 0, 100% 0, 100% calc(100% - 64px), calc(100% - 64px) 100%, 0 100%); }
+
+/* barra corta de color bajo los títulos */
+@utility title-bar { display: block; width: 32px; height: 3px; background: currentColor; }
+
+/* carrusel sin barra de desplazamiento visible */
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar { display: none; }
+}
+
+@keyframes kenburns { from { transform: scale(1.12); } to { transform: scale(1); } }
+@keyframes pulse-ring { 0% { transform: scale(.6); opacity: .9; } 100% { transform: scale(2.6); opacity: 0; } }
+@keyframes nudge { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(8px); } }
+.animate-kenburns { animation: kenburns 9s var(--ease-out-expo) both; }
+.animate-pulse-ring { animation: pulse-ring 2.4s cubic-bezier(.2,.6,.4,1) infinite; }
+.animate-nudge { animation: nudge 2s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-kenburns, .animate-pulse-ring, .animate-nudge { animation: none; }
 }

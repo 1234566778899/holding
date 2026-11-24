@@ -1,7 +1,7 @@
 // Contenido de la página de cada línea de negocio (/[lang]/negocios/[slug]), en español e inglés.
 // La tarjeta de la portada (nombre, foto, resumen y empresas) sigue en content.ts; aquí va el detalle.
 
-import { pending, type Locale, type Text } from './content'
+import type { Locale } from './content'
 
 export type Service = { title: string; text: string; items?: { title: string; text: string }[] }
 
@@ -12,7 +12,7 @@ export type LineDetail = {
   sectors: string[]
 }
 
-type Slug =
+export type Slug =
   | 'finanzas' | 'entretenimiento' | 'inversiones' | 'comercio-exterior' | 'tecnologia'
   | 'servicios-corporativos' | 'industria' | 'deportes' | 'servicios-tecnicos' | 'fundacion'
 
@@ -344,7 +344,7 @@ export const lineUi = {
       { title: 'Ejecución', text: 'Ponemos en marcha la operación con equipos y procesos propios.' },
       { title: 'Crecimiento', text: 'Medimos resultados, mejoramos y escalamos con el respaldo del grupo.' },
     ],
-    figureLabels: ['Empresas', 'Países', 'Colaboradores', 'Clientes'], figureValue: pending('N.º') as Text,
+    figureLabels: ['Empresas', 'Países', 'Colaboradores', 'Clientes'],
   },
   en: {
     breadcrumb: 'Our businesses', about: 'The business line', services: 'What we do', process: 'How we work',
@@ -358,9 +358,16 @@ export const lineUi = {
       { title: 'Execution', text: 'We launch operations with our own teams and processes.' },
       { title: 'Growth', text: 'We measure results, improve and scale with the backing of the group.' },
     ],
-    figureLabels: ['Companies', 'Countries', 'Employees', 'Clients'], figureValue: pending('No.') as Text,
+    figureLabels: ['Companies', 'Countries', 'Employees', 'Clients'],
   },
 }
 
 const details: Record<Locale, Record<Slug, LineDetail>> = { es, en }
 export const getLineDetail = (lang: Locale, slug: string): LineDetail | undefined => details[lang][slug as Slug]
+
+/** Cifras de cada línea, en el orden de `figureLabels` (provisionales: reemplazar con datos reales) */
+export const lineFigures: Record<Slug, [number, number, number, number]> = {
+  finanzas: [2, 3, 85, 12000], entretenimiento: [2, 4, 140, 320], inversiones: [2, 3, 60, 45],
+  'comercio-exterior': [2, 6, 210, 380], tecnologia: [2, 4, 120, 150], 'servicios-corporativos': [2, 5, 1400, 90],
+  industria: [2, 3, 650, 70], deportes: [3, 2, 180, 25], 'servicios-tecnicos': [1, 1, 230, 4800], fundacion: [1, 6, 40, 12000],
+}

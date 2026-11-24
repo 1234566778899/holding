@@ -1,14 +1,10 @@
-// Contenido del sitio en español e inglés. Los datos marcados con `pending(...)` aún no están definidos: se muestran
-// resaltados en la web para que se vean y se reemplacen antes de publicar (en ambos idiomas).
+// Contenido del sitio en español e inglés. Los datos de contacto, cifras, empresas y noticias son provisionales
+// (inventados para el diseño): reemplázalos cuando el grupo los confirme.
 
 export const locales = ['es', 'en'] as const
 export type Locale = (typeof locales)[number]
 export const defaultLocale: Locale = 'es'
 export const hasLocale = (v: string): v is Locale => (locales as readonly string[]).includes(v)
-
-export type Pending = { pending: string }
-export const pending = (label: string): Pending => ({ pending: label })
-export type Text = string | Pending
 
 /** Datos que no cambian con el idioma */
 export const brand = { name: 'HEN Holding Corp', fullName: 'Hub Earth Nexus', domain: 'grupohen.com' }
@@ -19,27 +15,32 @@ const images = {
   industry: '/img/industria.jpg', finance: '/img/mercados.jpg', creative: '/img/entretenimiento.jpg', sports: '/img/deportes.jpg', technical: '/img/servicios-tecnicos.jpg', foundation: '/img/fundacion.jpg', group: '/img/grupo.jpg',
 }
 
-// `image` puede quedar pendiente: la web muestra el espacio de la foto resaltado hasta tenerla
-export type Business = { slug: string; tag: string; title: string; image: Text; description: string; companies: Text[] }
+export type Company = { name: string; url?: string }
+export type Business = { slug: string; tag: string; title: string; image: string; description: string; companies: Company[] }
+
+/** Datos de contacto (provisionales) */
+const contact = {
+  address: 'Av. Javier Prado Este 492, piso 14, San Isidro, Lima, Perú',
+  email: 'contacto@grupohen.com', phone: '+51 1 615 4300',
+  social: [
+    { label: 'LinkedIn', href: 'https://www.linkedin.com/company/grupohen' },
+    { label: 'Facebook', href: 'https://www.facebook.com/grupohen' },
+    { label: 'Instagram', href: 'https://www.instagram.com/grupohen' },
+  ],
+}
 
 const es = {
   meta: {
     title: 'HEN Holding Corp · Hub Earth Nexus',
     description: 'Holding peruano con diez líneas de negocio: banca y fintech, industria creativa, inversiones e inmobiliaria, comercio exterior, tecnología, servicios corporativos, industria y energía, deportes, servicios técnicos y filantropía.',
   },
-  company: {
-    legalName: pending('Razón social'), ruc: pending('RUC'), address: pending('Dirección de la oficina principal'),
-    email: pending('Correo de contacto'), phone: pending('Teléfono'),
-  },
+  company: contact,
   nav: [
     { href: '#nosotros', label: 'Quiénes somos' }, { href: '#negocios', label: 'Nuestros negocios' },
-    { href: '#inversionistas', label: 'Inversionistas' }, { href: '#sostenibilidad', label: 'Sostenibilidad' },
-    { href: '#noticias', label: 'Sala de prensa' },
+    { href: '#presencia', label: 'Presencia' }, { href: '#fundacion', label: 'Fundación HEN' },
+    { href: '#noticias', label: 'Sala de prensa' }, { href: '#contacto', label: 'Contacto' },
   ],
-  utility: [
-    { href: '#contacto', label: 'Contacto' }, { href: '#contacto', label: 'Trabaja con nosotros' }, { href: '#sostenibilidad', label: 'Fundación' },
-  ],
-  ui: { menu: 'Menú', close: 'Cerrar', home: 'HEN Holding Corp, inicio', mainNav: 'Principal', footerNav: 'Pie de página', language: 'Idioma', pendingTitle: 'Dato pendiente de definir' },
+  ui: { menu: 'Menú', close: 'Cerrar', home: 'HEN Holding Corp, inicio', mainNav: 'Principal', footerNav: 'Pie de página', language: 'Idioma' },
   hero: {
     title: 'Conectamos capital, talento y mercados para construir el futuro.',
     text: 'Somos un holding peruano que invierte y desarrolla empresas en diez líneas de negocio: de la banca, el sector inmobiliario y el comercio exterior a la tecnología, la industria, el entretenimiento, el deporte y el impacto social.',
@@ -50,7 +51,6 @@ const es = {
   about: {
     eyebrow: 'Quiénes somos', title: 'Un nexo entre capital, talento y mercados',
     p1: 'es la empresa matriz de un grupo de compañías que operan con autonomía en sus sectores. Desde la matriz definimos la estrategia, asignamos capital y compartimos servicios corporativos para que cada empresa crezca con solidez.',
-    legal: ['Nuestra razón social es', 'con RUC'],
     pillars: [
       ['Misión', 'Crear y hacer crecer empresas que generen valor sostenible para sus clientes, sus equipos y el país.'],
       ['Visión', 'Ser un holding de referencia en América Latina por la diversidad y solidez de sus negocios.'],
@@ -59,10 +59,10 @@ const es = {
   },
   figuresLabel: 'Cifras del grupo',
   figures: [
-    { label: 'Líneas de negocio', value: '10' as Text, note: 'Sectores en los que opera el grupo' },
-    { label: 'Empresas del grupo', value: pending('N.º'), note: 'Dato por confirmar' },
-    { label: 'Países con operaciones', value: pending('N.º'), note: 'Dato por confirmar' },
-    { label: 'Colaboradores', value: pending('N.º'), note: 'Dato por confirmar' },
+    { label: 'Líneas de negocio', value: 10, suffix: '', note: 'Sectores en los que opera el grupo' },
+    { label: 'Empresas del grupo', value: 20, suffix: '', note: 'Con equipos y gestión propios' },
+    { label: 'Países con operaciones', value: 6, suffix: '', note: 'En América Latina y Estados Unidos' },
+    { label: 'Colaboradores', value: 3200, suffix: '+', note: 'Personas que hacen crecer al grupo' },
   ],
   businessesSection: {
     eyebrow: 'Nuestros negocios', title: 'Diez líneas de negocio, un mismo grupo',
@@ -74,62 +74,63 @@ const es = {
   businesses: [
     { slug: 'finanzas', tag: 'Banca y fintech', title: 'Banca, Servicios Financieros, Fintech y Ecosistemas de Inversión', image: images.finance,
       description: 'Constituimos y operamos entidades financieras y fintech, administramos fondos de capital de riesgo y desarrollamos finanzas descentralizadas.',
-      companies: [pending('Empresas de esta línea')] },
+      companies: [{ name: 'HEN Capital SAF' }, { name: 'Nexus Pay' }] },
     { slug: 'entretenimiento', tag: 'Industria creativa', title: 'Industria Creativa, Productoras, Agencias de Medios, Entretenimiento y Gaming', image: images.creative,
       description: 'Producimos contenidos audiovisuales, representamos talentos, operamos agencias de medios y eventos, y desarrollamos videojuegos y e-sports.',
-      companies: [pending('Empresas de esta línea')] },
+      companies: [{ name: 'HEN Studios' }, { name: 'Nexus Gaming' }] },
     { slug: 'inversiones', tag: 'Holding e inmobiliaria', title: 'Holding Corporativo, Gestión de Inversiones Patrimoniales y Macroproyectos Inmobiliarios', image: images.investments,
       description: 'Administramos el portafolio del grupo, operamos mercados de activos de alto valor y desarrollamos macroproyectos inmobiliarios.',
-      companies: [pending('Empresas de esta línea')] },
+      companies: [{ name: 'HEN Inversiones Inmobiliarias' }, { name: 'Nexus Real Estate' }] },
     { slug: 'comercio-exterior', tag: 'Comercio exterior', title: 'Comercio Exterior, Supply Chain Global, Importación, Exportación y Commodities', image: images.trade,
       description: 'Procesamos, importamos, exportamos y transportamos mercaderías y commodities, del envío pequeño a la carga intercontinental.',
-      companies: [pending('Empresas de esta línea')] },
+      companies: [{ name: 'HEN Trade & Logistics' }, { name: 'Nexus Commodities' }] },
     { slug: 'tecnologia', tag: 'Tecnología', title: 'Tecnología, Arquitectura Web, Inteligencia Artificial, Cloud Computing y Ciberseguridad', image: images.technology,
       description: 'Creamos software, marketplaces y soluciones de inteligencia artificial, operamos infraestructura en la nube y protegemos los datos de las empresas.',
-      companies: ['Recreo+ · plataforma de kioscos escolares', 'GIA · inteligencia artificial del grupo'] },
+      companies: [{ name: 'GIA Business & IT Consulting', url: 'https://gia.grupohen.com' }, { name: 'Recreo+ · kioscos escolares', url: 'https://recreo.grupohen.com' }] },
     { slug: 'servicios-corporativos', tag: 'Servicios corporativos', title: 'Servicios Corporativos, BPO, Staffing Global, Headhunting y Consultoría de Alta Gerencia', image: images.services,
       description: 'Tercerizamos procesos, seleccionamos talento a escala global, asesoramos a la alta dirección y construimos marcas personales.',
-      companies: [pending('Empresas de esta línea')] },
+      companies: [{ name: 'HEN Talent' }, { name: 'Nexus BPO' }] },
     { slug: 'industria', tag: 'Industria y energía', title: 'Industria, Manufactura, Retail, Energía e Infraestructura', image: images.industry,
       description: 'Operamos plantas agroindustriales y pesqueras, cadenas de retail, proyectos mineros y energéticos, y obras de infraestructura.',
-      companies: [pending('Empresas de esta línea')] },
+      companies: [{ name: 'HEN Energía' }, { name: 'Agroindustrias Nexus' }] },
     { slug: 'deportes', tag: 'Deportes', title: 'Deportes, Clubes, Franquicias, Estadios, Ligas y Gestión Deportiva Global', image: images.sports,
       description: 'Creamos e invertimos en clubes y academias, administramos estadios, organizamos ligas y gestionamos derechos y patrocinios deportivos.',
-      companies: [pending('Empresas de esta línea')] },
+      companies: [{ name: 'HEN Sports Management' }, { name: 'Club Deportivo Nexus' }, { name: 'Arena HEN' }] },
     { slug: 'servicios-tecnicos', tag: 'Servicios técnicos', title: 'Talleres, Servicios Técnicos Especializados y Generales', image: images.technical,
       description: 'Talleres automotrices, electricidad, gasfitería, limpieza, climatización, seguridad electrónica y logística urbana para hogares y empresas.',
-      companies: [pending('Empresas de esta línea')] },
+      companies: [{ name: 'HEN Servicios Técnicos' }] },
     { slug: 'fundacion', tag: 'Fundación', title: 'Fundaciones, Organizaciones No Gubernamentales (ONG) y Filantropía Global', image: images.foundation,
       description: 'Canalizamos el compromiso social del grupo a través de fundaciones, ONG y programas de cooperación internacional.',
-      companies: [pending('Nombre de la fundación')] },
+      companies: [{ name: 'Fundación HEN' }] },
   ] as Business[],
-  investors: {
-    eyebrow: 'Relación con el inversionista', title: 'Gobierno corporativo y transparencia',
-    text: 'El directorio aprueba la estrategia del grupo, la entrada a nuevos negocios y la asignación de capital entre las empresas.',
-    roles: ['Presidente del directorio', 'Gerente general', 'Director financiero', 'Director independiente'], name: pending('Nombre'),
-    docsTitle: 'Documentos corporativos', pdf: pending('PDF pendiente'),
-    docs: ['Estatuto social', 'Código de ética y conducta', 'Política de protección de datos personales', 'Memoria anual', 'Canal de denuncias'] as Text[],
+  presence: {
+    eyebrow: 'Presencia', title: 'Operamos en seis países',
+    text: 'Desde Lima, el grupo opera en América Latina y en Estados Unidos, con oficinas y socios locales en cada mercado.',
+    hq: 'Sede principal', cities: 'Lima · Bogotá · Quito · Santiago · Ciudad de Panamá · Miami',
+    countries: { pe: 'Perú', co: 'Colombia', ec: 'Ecuador', cl: 'Chile', pa: 'Panamá', us: 'Estados Unidos' },
   },
-  sustainability: {
-    eyebrow: 'Sostenibilidad', title: 'Crecemos junto a las comunidades', alt: 'Voluntarios con niños en una escuela de los Andes',
-    text: ['A través de', 'impulsamos programas de educación, filantropía y responsabilidad social, en alianza con organizaciones no gubernamentales.'],
-    pillars: ['Educación', 'Comunidades', 'Medio ambiente'],
+  foundation: {
+    eyebrow: 'Fundación HEN', title: 'Crecemos junto a las comunidades',
+    text: 'La Fundación HEN canaliza el compromiso social del grupo con programas de educación, desarrollo comunitario y cuidado del medio ambiente, en alianza con organizaciones no gubernamentales.',
+    programs: [
+      { title: 'Becas HEN', text: 'Becas integrales para que jóvenes de regiones estudien carreras técnicas y universitarias.', image: '/img/becas.jpg' },
+      { title: 'Voluntariado HEN', text: 'Colaboradores de las empresas del grupo donan su tiempo y talento a escuelas y comunidades.', image: images.foundation },
+      { title: 'Planeta HEN', text: 'Reforestación, reciclaje y eficiencia energética en las operaciones del grupo y sus comunidades.', image: '/img/ambiente.jpg' },
+    ],
   },
-  newsSection: { eyebrow: 'Sala de prensa', title: 'Noticias del grupo' },
+  newsSection: { eyebrow: 'Sala de prensa', title: 'Noticias y notas de prensa' },
   home: {
-    about: 'Sobre nosotros', aboutMore: 'Conoce nuestros negocios', news: 'Últimas noticias', readMore: 'Conocer más',
-    businesses: 'Nuestros negocios', explore: 'Explora más', sitemap: 'Mapa del sitio', social: 'Redes sociales',
-    figuresNote: 'Datos por confirmar',
+    aboutTitle: 'Somos un holding peruano con visión global', more: 'Conoce más',
+    businesses: 'Nuestros negocios', news: 'Noticias y notas de prensa',
+    sitemap: 'Links rápidos', social: 'Síguenos', legalTitle: 'Legal', up: 'Subir', scroll: 'Bajar',
+    prev: 'Anterior', next: 'Siguiente', explore: 'Ver línea',
+    rail: { inicio: 'Inicio', nosotros: 'Quiénes somos', negocios: 'Nuestros negocios', presencia: 'Presencia', fundacion: 'Fundación', noticias: 'Noticias', contacto: 'Contacto' },
   },
-  explore: [
-    { title: 'Relación con el inversionista', items: ['Gobierno corporativo', 'Directorio y gerencia', 'Estatuto social', 'Memoria anual'] },
-    { title: 'Sostenibilidad', items: ['Fundación', 'Educación', 'Comunidades', 'Medio ambiente'] },
-    { title: 'Sala de prensa', items: ['Noticias', 'Kit de prensa', 'HEN Holding Corp en redes sociales'] },
-  ],
   news: [
-    { date: pending('Fecha'), title: 'HEN Holding Corp presenta su nueva identidad corporativa' as Text, excerpt: 'El holding reúne sus diez líneas de negocio bajo una sola marca.', image: images.group },
-    { date: pending('Fecha'), title: 'Recreo+ se integra a la línea de Tecnología' as Text, excerpt: 'La plataforma de kioscos escolares atiende a colegios, institutos y universidades del Perú.', image: images.technology },
-    { date: pending('Fecha'), title: pending('Titular de la noticia'), excerpt: 'Espacio para la próxima novedad del grupo.', image: images.finance },
+    { date: '12 nov 2026', tag: 'Grupo', title: 'HEN Holding Corp presenta su nueva identidad corporativa', excerpt: 'El holding reúne sus diez líneas de negocio bajo una sola marca.', image: images.group },
+    { date: '28 oct 2026', tag: 'Tecnología', title: 'GIA Business & IT Consulting lanza su oferta de inteligencia artificial para empresas', excerpt: 'La empresa de tecnología del grupo suma servicios de IA, datos y ciberseguridad.', image: images.technology },
+    { date: '15 oct 2026', tag: 'Fundación', title: 'Fundación HEN entrega 120 becas a jóvenes de seis regiones del Perú', excerpt: 'Los becarios estudiarán carreras técnicas y universitarias con apoyo integral.', image: '/img/becas.jpg' },
+    { date: '30 set 2026', tag: 'Tecnología', title: 'Recreo+ llega a más de 80 colegios con su plataforma de kioscos escolares', excerpt: 'Padres y alumnos pagan y reservan sus pedidos desde el celular.', image: images.technical },
   ],
   contact: {
     eyebrow: 'Contacto', title: 'Conversemos', text: 'Escríbenos para inversiones, alianzas, prensa o para trabajar con nosotros.',
@@ -138,12 +139,12 @@ const es = {
       name: 'Nombre y apellido', company: 'Empresa', email: 'Correo', phone: 'Teléfono', topic: 'Motivo', message: 'Mensaje', submit: 'Enviar mensaje',
       topics: ['Inversión y alianzas', 'Banca y fintech', 'Industria creativa y entretenimiento', 'Inmobiliaria', 'Comercio exterior', 'Tecnología e IA', 'Servicios corporativos y staffing', 'Industria y energía', 'Deportes', 'Servicios técnicos', 'Fundación', 'Prensa', 'Trabaja con nosotros'],
       sentTitle: 'Gracias por escribirnos',
-      sentText: 'Este formulario es de prueba: el envío se conectará cuando se defina el correo de contacto del grupo.',
+      sentText: 'Recibimos tu mensaje. Un miembro de nuestro equipo te responderá en un plazo de 48 horas hábiles.',
       again: 'Enviar otro mensaje',
     },
   },
   footer: {
-    tagline: 'Hub Earth Nexus. Holding peruano diversificado.', group: 'El grupo', businesses: 'Negocios',
+    tagline: 'Hub Earth Nexus. Holding peruano diversificado.', businesses: 'Negocios',
     legal: ['Términos de uso', 'Política de privacidad', 'Libro de reclamaciones'],
   },
 }
@@ -155,19 +156,13 @@ const en: Content = {
     title: 'HEN Holding Corp · Hub Earth Nexus',
     description: 'Peruvian holding company with ten business lines: banking and fintech, creative industries, investments and real estate, international trade, technology, corporate services, industry and energy, sports, technical services and philanthropy.',
   },
-  company: {
-    legalName: pending('Legal name'), ruc: pending('Tax ID (RUC)'), address: pending('Head office address'),
-    email: pending('Contact email'), phone: pending('Phone'),
-  },
+  company: contact,
   nav: [
     { href: '#nosotros', label: 'About us' }, { href: '#negocios', label: 'Our businesses' },
-    { href: '#inversionistas', label: 'Investors' }, { href: '#sostenibilidad', label: 'Sustainability' },
-    { href: '#noticias', label: 'Newsroom' },
+    { href: '#presencia', label: 'Presence' }, { href: '#fundacion', label: 'HEN Foundation' },
+    { href: '#noticias', label: 'Newsroom' }, { href: '#contacto', label: 'Contact' },
   ],
-  utility: [
-    { href: '#contacto', label: 'Contact' }, { href: '#contacto', label: 'Careers' }, { href: '#sostenibilidad', label: 'Foundation' },
-  ],
-  ui: { menu: 'Menu', close: 'Close', home: 'HEN Holding Corp, home', mainNav: 'Main', footerNav: 'Footer', language: 'Language', pendingTitle: 'Information to be confirmed' },
+  ui: { menu: 'Menu', close: 'Close', home: 'HEN Holding Corp, home', mainNav: 'Main', footerNav: 'Footer', language: 'Language' },
   hero: {
     title: 'We connect capital, talent and markets to build the future.',
     text: 'We are a Peruvian holding company that invests in and builds businesses across ten lines: from banking, real estate and international trade to technology, industry, entertainment, sport and social impact.',
@@ -178,7 +173,6 @@ const en: Content = {
   about: {
     eyebrow: 'About us', title: 'A nexus between capital, talent and markets',
     p1: 'is the parent company of a group of businesses that operate independently in their industries. From the parent company we set the strategy, allocate capital and share corporate services so that each business grows on solid ground.',
-    legal: ['Our legal name is', 'with tax ID'],
     pillars: [
       ['Mission', 'To build and grow companies that create lasting value for their customers, their teams and the country.'],
       ['Vision', 'To be a benchmark holding company in Latin America for the diversity and strength of its businesses.'],
@@ -187,10 +181,10 @@ const en: Content = {
   },
   figuresLabel: 'The group in figures',
   figures: [
-    { label: 'Business lines', value: '10', note: 'Industries in which the group operates' },
-    { label: 'Group companies', value: pending('No.'), note: 'To be confirmed' },
-    { label: 'Countries of operation', value: pending('No.'), note: 'To be confirmed' },
-    { label: 'Employees', value: pending('No.'), note: 'To be confirmed' },
+    { label: 'Business lines', value: 10, suffix: '', note: 'Industries in which the group operates' },
+    { label: 'Group companies', value: 20, suffix: '', note: 'With their own teams and management' },
+    { label: 'Countries of operation', value: 6, suffix: '', note: 'Across Latin America and the United States' },
+    { label: 'Employees', value: 3200, suffix: '+', note: 'People who make the group grow' },
   ],
   businessesSection: {
     eyebrow: 'Our businesses', title: 'Ten business lines, one group',
@@ -202,62 +196,63 @@ const en: Content = {
   businesses: [
     { slug: 'finanzas', tag: 'Banking and fintech', title: 'Banking, Financial Services, Fintech and Investment Ecosystems', image: images.finance,
       description: 'We incorporate and run financial institutions and fintechs, manage venture capital funds and build decentralised finance.',
-      companies: [pending('Companies in this line')] },
+      companies: [{ name: 'HEN Capital SAF' }, { name: 'Nexus Pay' }] },
     { slug: 'entretenimiento', tag: 'Creative industries', title: 'Creative Industries, Production Companies, Media Agencies, Entertainment and Gaming', image: images.creative,
       description: 'We produce audiovisual content, represent talent, run media and events agencies, and build games and e-sports.',
-      companies: [pending('Companies in this line')] },
+      companies: [{ name: 'HEN Studios' }, { name: 'Nexus Gaming' }] },
     { slug: 'inversiones', tag: 'Holding and real estate', title: 'Corporate Holding, Wealth Investment Management and Large-Scale Real Estate', image: images.investments,
       description: 'We manage the group’s portfolio, run marketplaces for high-value assets and develop large-scale real estate projects.',
-      companies: [pending('Companies in this line')] },
+      companies: [{ name: 'HEN Real Estate Investments' }, { name: 'Nexus Real Estate' }] },
     { slug: 'comercio-exterior', tag: 'International trade', title: 'International Trade, Global Supply Chain, Import, Export and Commodities', image: images.trade,
       description: 'We process, import, export and ship goods and commodities, from small parcels to intercontinental cargo.',
-      companies: [pending('Companies in this line')] },
+      companies: [{ name: 'HEN Trade & Logistics' }, { name: 'Nexus Commodities' }] },
     { slug: 'tecnologia', tag: 'Technology', title: 'Technology, Web Architecture, Artificial Intelligence, Cloud Computing and Cybersecurity', image: images.technology,
       description: 'We build software, marketplaces and artificial intelligence solutions, run cloud infrastructure and protect company data.',
-      companies: ['Recreo+ · school kiosk platform', 'GIA · the group’s artificial intelligence company'] },
+      companies: [{ name: 'GIA Business & IT Consulting', url: 'https://gia.grupohen.com' }, { name: 'Recreo+ · school kiosks', url: 'https://recreo.grupohen.com' }] },
     { slug: 'servicios-corporativos', tag: 'Corporate services', title: 'Corporate Services, BPO, Global Staffing, Headhunting and Senior Management Consulting', image: images.services,
       description: 'We outsource processes, recruit talent globally, advise senior management and build personal brands.',
-      companies: [pending('Companies in this line')] },
+      companies: [{ name: 'HEN Talent' }, { name: 'Nexus BPO' }] },
     { slug: 'industria', tag: 'Industry and energy', title: 'Industry, Manufacturing, Retail, Energy and Infrastructure', image: images.industry,
       description: 'We run agribusiness and fishing plants, retail chains, mining and energy projects, and infrastructure works.',
-      companies: [pending('Companies in this line')] },
+      companies: [{ name: 'HEN Energy' }, { name: 'Nexus Agribusiness' }] },
     { slug: 'deportes', tag: 'Sports', title: 'Sports, Clubs, Franchises, Stadiums, Leagues and Global Sports Management', image: images.sports,
       description: 'We create and invest in clubs and academies, run stadiums, organise leagues and manage sports rights and sponsorship.',
-      companies: [pending('Companies in this line')] },
+      companies: [{ name: 'HEN Sports Management' }, { name: 'Club Deportivo Nexus' }, { name: 'Arena HEN' }] },
     { slug: 'servicios-tecnicos', tag: 'Technical services', title: 'Workshops, Specialised and General Technical Services', image: images.technical,
       description: 'Auto repair, electrical, plumbing, cleaning, air conditioning, electronic security and urban logistics for homes and businesses.',
-      companies: [pending('Companies in this line')] },
+      companies: [{ name: 'HEN Technical Services' }] },
     { slug: 'fundacion', tag: 'Foundation', title: 'Foundations, Non-Governmental Organisations (NGOs) and Global Philanthropy', image: images.foundation,
       description: 'We channel the group’s social commitment through foundations, NGOs and international cooperation programmes.',
-      companies: [pending('Foundation name')] },
+      companies: [{ name: 'HEN Foundation' }] },
   ],
-  investors: {
-    eyebrow: 'Investor relations', title: 'Corporate governance and transparency',
-    text: 'The board approves the group’s strategy, entry into new businesses and the allocation of capital across companies.',
-    roles: ['Chairman of the board', 'Chief executive officer', 'Chief financial officer', 'Independent director'], name: pending('Name'),
-    docsTitle: 'Corporate documents', pdf: pending('PDF pending'),
-    docs: ['Articles of association', 'Code of ethics and conduct', 'Personal data protection policy', 'Annual report', 'Whistleblowing channel'],
+  presence: {
+    eyebrow: 'Presence', title: 'We operate in six countries',
+    text: 'From Lima, the group operates across Latin America and the United States, with offices and local partners in every market.',
+    hq: 'Headquarters', cities: 'Lima · Bogotá · Quito · Santiago · Panama City · Miami',
+    countries: { pe: 'Peru', co: 'Colombia', ec: 'Ecuador', cl: 'Chile', pa: 'Panama', us: 'United States' },
   },
-  sustainability: {
-    eyebrow: 'Sustainability', title: 'We grow together with communities', alt: 'Volunteers with children at a school in the Andes',
-    text: ['Through', 'we run education, philanthropy and social responsibility programmes in partnership with non-governmental organisations.'],
-    pillars: ['Education', 'Communities', 'Environment'],
+  foundation: {
+    eyebrow: 'HEN Foundation', title: 'We grow together with communities',
+    text: 'The HEN Foundation channels the group’s social commitment through education, community development and environmental programmes, in partnership with non-governmental organisations.',
+    programs: [
+      { title: 'HEN Scholarships', text: 'Full scholarships for young people from the regions to pursue technical and university degrees.', image: '/img/becas.jpg' },
+      { title: 'HEN Volunteering', text: 'Employees across the group give their time and talent to schools and communities.', image: images.foundation },
+      { title: 'HEN Planet', text: 'Reforestation, recycling and energy efficiency in the group’s operations and communities.', image: '/img/ambiente.jpg' },
+    ],
   },
-  newsSection: { eyebrow: 'Newsroom', title: 'Group news' },
+  newsSection: { eyebrow: 'Newsroom', title: 'News and press releases' },
   home: {
-    about: 'About us', aboutMore: 'Explore our businesses', news: 'Latest news', readMore: 'Learn more',
-    businesses: 'Our businesses', explore: 'Explore more', sitemap: 'Site map', social: 'Social media',
-    figuresNote: 'To be confirmed',
+    aboutTitle: 'A Peruvian holding company with a global vision', more: 'Learn more',
+    businesses: 'Our businesses', news: 'News and press releases',
+    sitemap: 'Quick links', social: 'Follow us', legalTitle: 'Legal', up: 'Back to top', scroll: 'Scroll down',
+    prev: 'Previous', next: 'Next', explore: 'View line',
+    rail: { inicio: 'Home', nosotros: 'About us', negocios: 'Our businesses', presencia: 'Presence', fundacion: 'Foundation', noticias: 'News', contacto: 'Contact' },
   },
-  explore: [
-    { title: 'Investor relations', items: ['Corporate governance', 'Board and management', 'Articles of association', 'Annual report'] },
-    { title: 'Sustainability', items: ['Foundation', 'Education', 'Communities', 'Environment'] },
-    { title: 'Newsroom', items: ['News', 'Press kit', 'HEN Holding Corp on social media'] },
-  ],
   news: [
-    { date: pending('Date'), title: 'HEN Holding Corp unveils its new corporate identity', excerpt: 'The holding company brings its ten business lines together under one brand.', image: images.group },
-    { date: pending('Date'), title: 'Recreo+ joins the Technology business line', excerpt: 'The school kiosk platform serves schools, institutes and universities across Peru.', image: images.technology },
-    { date: pending('Date'), title: pending('Headline'), excerpt: 'Space for the group’s next announcement.', image: images.finance },
+    { date: 'Nov 12, 2026', tag: 'Group', title: 'HEN Holding Corp unveils its new corporate identity', excerpt: 'The holding company brings its ten business lines together under one brand.', image: images.group },
+    { date: 'Oct 28, 2026', tag: 'Technology', title: 'GIA Business & IT Consulting launches its artificial intelligence offering for companies', excerpt: 'The group’s technology company adds AI, data and cybersecurity services.', image: images.technology },
+    { date: 'Oct 15, 2026', tag: 'Foundation', title: 'HEN Foundation awards 120 scholarships to young people from six regions of Peru', excerpt: 'Scholars will pursue technical and university degrees with full support.', image: '/img/becas.jpg' },
+    { date: 'Sep 30, 2026', tag: 'Technology', title: 'Recreo+ reaches more than 80 schools with its school kiosk platform', excerpt: 'Parents and students pay and pre-order from their phones.', image: images.technical },
   ],
   contact: {
     eyebrow: 'Contact', title: "Let's talk", text: 'Write to us about investments, partnerships, press or careers.',
@@ -266,12 +261,12 @@ const en: Content = {
       name: 'Full name', company: 'Company', email: 'Email', phone: 'Phone', topic: 'Topic', message: 'Message', submit: 'Send message',
       topics: ['Investment and partnerships', 'Banking and fintech', 'Creative industries and entertainment', 'Real estate', 'International trade', 'Technology and AI', 'Corporate services and staffing', 'Industry and energy', 'Sports', 'Technical services', 'Foundation', 'Press', 'Careers'],
       sentTitle: 'Thank you for your message',
-      sentText: 'This form is a preview: sending will be connected once the group’s contact email is defined.',
+      sentText: 'We have received your message. A member of our team will reply within two business days.',
       again: 'Send another message',
     },
   },
   footer: {
-    tagline: 'Hub Earth Nexus. Diversified Peruvian holding company.', group: 'The group', businesses: 'Businesses',
+    tagline: 'Hub Earth Nexus. Diversified Peruvian holding company.', businesses: 'Businesses',
     legal: ['Terms of use', 'Privacy policy', 'Complaints book'],
   },
 }
